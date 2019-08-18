@@ -1,25 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
+import * as TogglService from './services/toggl.service';
+import { Timer } from './components/timer/Timer';
 import './App.css';
 
+const { ipcRenderer } = window.require('electron');
+
 function App() {
+
+  TogglService.me();
+
+  window.addEventListener('focus', () => {
+    // console.log('focus')
+  });
+  window.addEventListener('blur', () => {
+    // console.log('blur', window.innerHeight);
+    ipcRenderer.send('resize-window', 300, 50);
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <Timer></Timer>
+    </React.Fragment>
   );
 }
 
