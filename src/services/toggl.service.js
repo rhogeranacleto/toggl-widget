@@ -28,3 +28,10 @@ export async function stop(id) {
 
   return data.data;
 }
+
+export async function get() {
+
+  const { data } = await axios.get('/time_entries');
+
+  return data;
+}

@@ -11,9 +11,12 @@ const { ipcRenderer } = window.require('electron');
 
 export function Timer() {
 
-  const [current, setCurrent] = useState(null);
+  const [played, isPlayed] = useState(false);
+  const [current, setCurrent] = useState({});
   const [project, setProject] = useState(null);
   const [time, setTime] = useState('');
+  const [last, setLast] = useState(null);
+  const [entries, setEntries] = useState([]);
   const [trans, setTrans] = useState(1);
   const [showList, setShowList] = useState(false);
   const [radius, setRadius] = useState(25);
@@ -32,41 +35,47 @@ export function Timer() {
     }
   }, [windowFocus]);
 
-  async function getCurrent() {
+  async function getList() {
 
-    const data = await TogglService.current();
+    const data = await TogglService.get();
 
-    setCurrent(data);
+    console.log(data);
+    setEntries(data);
   }
 
   useEffect(() => {
 
-    getCurrent();
+    getList();
 
     let id = setInterval(() => {
       console.log('vai pegar');
-      getCurrent();
+      getList();
     }, 30000);
 
     return () => clearInterval(id);
   }, []);
 
+  useEffect(() => {
+
+    isPlayed(current.duration < 0);
+
+    if (current.pid) {
+
+      TogglService.project(current.pid).then(project => setProject(project));
+    }
+
+    setTime(current.duration < 0 ? moment.duration(moment().diff(moment(current.start))).humanize() : '');
+  }, [current]);
 
   useEffect(() => {
-    console.log(current);
-    if (current) {
 
-      if (current.pid) {
+    const last = entries[entries.length - 1];
 
-        TogglService.project(current.pid).then(project => setProject(project));
-      }
+    if (last) {
 
-      setTime(moment.duration(moment().diff(moment(current.start))).humanize());
-    } else {
-
-      setTime('');
+      setCurrent(last);
     }
-  }, [current]);
+  }, [entries]);
 
   function openList() {
 
@@ -88,7 +97,7 @@ export function Timer() {
     <Box style={{ borderRadius: radius, color: '#fff' }} overflow="hidden">
       <Box style={{ backgroundColor: green[800], /* opacity: trans */ }} display="flex" alignItems="center" >
         <IconButton size="small" onClick={playOrStop}>
-          {current
+          {played
             ? <PauseCircleFilledRounded style={{ fontSize: 40 }} />
             : <PlayCircleFilledRounded style={{ fontSize: 40 }} />
           }
