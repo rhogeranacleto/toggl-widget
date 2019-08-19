@@ -1,51 +1,35 @@
-import React, { useState } from 'react';
-import { List, ListItem, ListItemIcon, ListItemText, IconButton, ListItemSecondaryAction } from '@material-ui/core';
-import { PlayArrowRounded, PlayCircleFilledRounded } from '@material-ui/icons';
-import { green } from '@material-ui/core/colors';
+import React, { useState, useEffect } from 'react';
+import { List, ListItem, ListItemIcon, ListItemText, IconButton } from '@material-ui/core';
+import { PlayCircleFilledRounded } from '@material-ui/icons';
+import moment from 'moment';
 
-export function TimerList() {
+export function TimerList({ entries, play }) {
 
-  const [items, setItems] = useState([
-    {
-      task: 'Uma task com um nome gigantesco tambem que eu nao sei como vai se sair',
-      project: 'Projeto JJ',
-      time: '3:00:00'
-    },
-    {
-      task: 'Otra task',
-      project: 'Projeto JJ',
-      time: '3:00:00'
-    },
+  let entriesCopy = [...entries];
 
-    {
-      task: 'Uma task com um nome gigantesco tambem que eu nao sei como vai se sair',
-      project: 'Projeto JJ',
-      time: '3:00:00'
-    },
+  entriesCopy.shift();
 
-    {
-      task: 'Uma task com um nome gigantesco tambem que eu nao sei como vai se sair',
-      project: 'Projeto JJ',
-      time: '3:00:00'
-    },
+  const [items, setItems] = useState(entriesCopy);
 
-    {
-      task: 'Uma task com um nome gigantesco tambem que eu nao sei como vai se sair',
-      project: 'Projeto JJ',
-      time: '3:00:00'
-    }
-  ])
+  useEffect(() => {
+
+    entriesCopy = [...entries];
+
+    entriesCopy.shift();
+
+    setItems(entriesCopy);
+  }, [entries]);
 
   return (
-    <List dense={true} style={{ backgroundColor: green[600], maxHeight: 234, overflowY: 'auto' }}>
+    <List dense={true} style={{ backgroundColor: 'rgba(255, 255, 255, 0.09)', maxHeight: 234, overflowY: 'auto' }}>
       {items.map((item, i) =>
         <ListItem dense={true} disableGutters={true} divider={true} key={i}>
           <ListItemIcon style={{ minWidth: 'initial' }}>
-            <IconButton size="small">
+            <IconButton size="small" onClick={() => play(item)}>
               <PlayCircleFilledRounded style={{ fontSize: 40 }} />
             </IconButton>
           </ListItemIcon>
-          <ListItemText primary={item.task} secondary={`${item.project} | ${item.time}`} />
+          <ListItemText primary={item.description} secondary={moment(moment(item.stop).diff(item.start)).utc().format('HH:mm:ss')} />
         </ListItem>
       )}
     </List>

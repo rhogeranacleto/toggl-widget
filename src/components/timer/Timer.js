@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, IconButton, Typography } from '@material-ui/core';
-import { PlayCircleFilledRounded, FolderOpenRounded, MoreVert, PauseCircleFilledRounded } from '@material-ui/icons';
-import { green } from '@material-ui/core/colors';
+import { PlayCircleFilledRounded, MoreVert, PauseCircleFilledRounded } from '@material-ui/icons';
+import { green, red } from '@material-ui/core/colors';
 import { TimerList } from './TimerList';
 import { useWindowFocus } from '../../contexts/WindowFocus';
 import * as TogglService from '../../services/toggl.service';
@@ -15,7 +15,6 @@ export function Timer() {
   const [current, setCurrent] = useState({});
   const [project, setProject] = useState(null);
   const [time, setTime] = useState('');
-  const [last, setLast] = useState(null);
   const [entries, setEntries] = useState([]);
   const [trans, setTrans] = useState(1);
   const [showList, setShowList] = useState(false);
@@ -50,7 +49,7 @@ export function Timer() {
     let id = setInterval(() => {
       console.log('vai pegar');
       getList();
-    }, 30000);
+    }, 60000);
 
     return () => clearInterval(id);
   }, []);
@@ -62,14 +61,17 @@ export function Timer() {
     if (current.pid) {
 
       TogglService.project(current.pid).then(project => setProject(project));
+    } else {
+
+      setProject(null);
     }
 
-    setTime(current.duration < 0 ? moment.duration(moment().diff(moment(current.start))).humanize() : '');
+    setTime(current.duration < 0 ? moment.duration(moment().diff(moment(current.start))).humanize() : 'Pausado');
   }, [current]);
 
   useEffect(() => {
 
-    const last = entries[entries.length - 1];
+    const last = entries[0];
 
     if (last) {
 
@@ -84,18 +86,30 @@ export function Timer() {
     setRadius(10);
   }
 
+  async function play(item) {
+
+    const data = await TogglService.start(item);
+
+    console.log(data);
+    // setCurrent(data);
+    getList();
+  }
+
   async function playOrStop() {
 
-    if (current) {
+    if (played) {
 
-      const data = await TogglService.stop(current.id);
-      setCurrent(null);
+      await TogglService.stop(current.id);
+      getList();
+    } else {
+
+      play(current);
     }
   }
 
   return (
-    <Box style={{ borderRadius: radius, color: '#fff' }} overflow="hidden">
-      <Box style={{ backgroundColor: green[800], /* opacity: trans */ }} display="flex" alignItems="center" >
+    <Box style={{ borderRadius: radius, color: '#fff', backgroundColor: played ? green[800] : red[800], opacity: trans }} overflow="hidden">
+      <Box style={{ /* opacity: trans */ }} display="flex" alignItems="center" >
         <IconButton size="small" onClick={playOrStop}>
           {played
             ? <PauseCircleFilledRounded style={{ fontSize: 40 }} />
@@ -113,7 +127,7 @@ export function Timer() {
           </Box>
         </Box>
       </Box>
-      {showList && <TimerList />}
+      {showList && <TimerList entries={entries} play={play} />}
     </Box>
   );
 }
