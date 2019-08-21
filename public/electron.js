@@ -1,11 +1,12 @@
 const electron = require('electron');
+const isDev = require('electron-is-dev');
 // Module to control application life.
 const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 
 const path = require('path');
-// const url = require('url');
+const url = require('url');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -25,8 +26,10 @@ function createWindow() {
     // resizable: false
   });
 
+  const startUrl = isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`;
+
   // and load the index.html of the app.
-  mainWindow.loadURL('http://localhost:3000');
+  mainWindow.loadURL(startUrl);
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools({     mode: 'detach'  });

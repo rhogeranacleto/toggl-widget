@@ -2,22 +2,31 @@
   "name": "toggl",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "rhogeranacleto",
+    "email": "rhogeranacleto@gmail.com"
+  },
   "dependencies": {
     "@material-ui/core": "^4.3.2",
     "@material-ui/icons": "^4.2.1",
     "axios": "^0.19.0",
+    "electron-is-dev": "^1.1.0",
     "moment": "^2.24.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-scripts": "3.1.1"
   },
-  "main": "src/main.js",
+  "homepage": "./",
+  "main": "public/electron.js",
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "react-build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron": "electron ."
+    "electron": "ELECTRON_START_URL=http://localhost:3000 electron .",
+    "electron-dev": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
+    "build": "electron-builder",
+    "prebuild": "react-scripts build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -34,7 +43,25 @@
       "last 1 safari version"
     ]
   },
+  "build": {
+    "appId": "toggl",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "linux": {
+      "target": [
+        "deb"
+      ]
+    }
+  },
   "devDependencies": {
-    "electron": "^6.0.2"
+    "concurrently": "^4.1.2",
+    "electron": "^6.0.2",
+    "electron-builder": "^21.2.0",
+    "wait-on": "^3.3.0"
   }
 }
