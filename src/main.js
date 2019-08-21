@@ -4,8 +4,8 @@ const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 
-const path = require('path');
-const url = require('url');
+// const path = require('path');
+// const url = require('url');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -43,13 +43,12 @@ function createWindow() {
   electron.ipcMain.on('resize-window', function (e, x, y) {
 
     mainWindow.setSize(x, y);
-    // console.log('resize', x, y);
   });
 
-  electron.powerMonitor.on('suspend', () => console.log('suspend'));
-  electron.powerMonitor.on('resume', () => console.log('resume'));
-  electron.powerMonitor.on('lock-screen', () => console.log('lock-screen'));
-  electron.powerMonitor.on('unlock-screen', () => console.log('unlock-screen'));
+  // electron.powerMonitor.on('suspend', () => console.log('suspend'));
+  // electron.powerMonitor.on('resume', () => console.log('resume'));
+  // electron.powerMonitor.on('lock-screen', () => console.log('lock-screen'));
+  // electron.powerMonitor.on('unlock-screen', () => console.log('unlock-screen'));
 }
 
 // This method will be called when Electron has finished

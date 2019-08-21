@@ -1,12 +1,5 @@
 import axios from 'axios';
 
-export async function me() {
-
-  const { data } = await axios.get('/me');
-
-  console.log(data);
-}
-
 export async function current() {
 
   const { data } = await axios.get('/time_entries/current');

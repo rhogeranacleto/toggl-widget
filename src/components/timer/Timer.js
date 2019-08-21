@@ -27,11 +27,11 @@ export function Timer() {
   useEffect(() => {
 
     if (windowFocus) {
-      console.log('caiu no focus')
+
       update();
       setTrans(1);
     } else {
-      console.log('caiu no blur');
+
       setTrans(0.4);
       setShowList(false);
       setRadius(25);
@@ -42,7 +42,6 @@ export function Timer() {
 
     const data = await TogglService.get();
 
-    console.log(data);
     setEntries(data);
   }
 
@@ -51,7 +50,7 @@ export function Timer() {
     update();
 
     let id = setInterval(() => {
-      console.log('vai pegar');
+
       update();
     }, 60000);
 
@@ -92,9 +91,8 @@ export function Timer() {
 
   async function play(item) {
 
-    const data = await TogglService.start(item);
+    await TogglService.start(item);
 
-    console.log(data);
     update();
   }
 
