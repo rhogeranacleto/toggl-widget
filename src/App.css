@@ -1,5 +1,9 @@
-button, ul {
+button, ul, input {
   -webkit-app-region: no-drag;
+}
+
+html{
+  overflow: hidden;
 }
 
 ::-webkit-scrollbar {

@@ -5,7 +5,7 @@ import moment from 'moment';
 
 export function TimerList({ entries, play }) {
 
-  let entriesCopy = [...entries];
+  const entriesCopy = [...entries];
 
   entriesCopy.shift();
 
@@ -13,15 +13,15 @@ export function TimerList({ entries, play }) {
 
   useEffect(() => {
 
-    entriesCopy = [...entries];
+    const copy = [...entries];
 
-    entriesCopy.shift();
+    copy.shift();
 
-    setItems(entriesCopy);
+    setItems(copy);
   }, [entries]);
 
   return (
-    <List dense={true} style={{ backgroundColor: 'rgba(255, 255, 255, 0.09)', maxHeight: 234, overflowY: 'auto' }}>
+    <List dense={true} style={{ backgroundColor: 'rgba(255, 255, 255, 0.09)', maxHeight: 204, overflowY: 'auto' }}>
       {items.map((item, i) =>
         <ListItem dense={true} disableGutters={true} divider={true} key={i}>
           <ListItemIcon style={{ minWidth: 'initial' }}>

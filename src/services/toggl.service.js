@@ -1,7 +1,4 @@
 import axios from 'axios';
-import moment from 'moment';
-
-const { ipcRenderer } = window.require('electron');
 
 export async function me() {
 

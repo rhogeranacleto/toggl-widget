@@ -20,7 +20,7 @@ function createWindow() {
       nodeIntegration: true
     },
     frame: false,
-    // transparent: true
+    transparent: true
     // resizable: false
   });
 
@@ -28,7 +28,7 @@ function createWindow() {
   mainWindow.loadURL('http://localhost:3000');
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools({     mode: 'detach'  });
+  // mainWindow.webContents.openDevTools({     mode: 'detach'  });
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -43,7 +43,7 @@ function createWindow() {
   electron.ipcMain.on('resize-window', function (e, x, y) {
 
     mainWindow.setSize(x, y);
-    console.log('resize', x, y);
+    // console.log('resize', x, y);
   });
 
   electron.powerMonitor.on('suspend', () => console.log('suspend'));

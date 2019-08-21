@@ -6,6 +6,8 @@ import { TimerList } from './TimerList';
 import { useWindowFocus } from '../../contexts/WindowFocus';
 import * as TogglService from '../../services/toggl.service';
 import moment from 'moment';
+import { Bottom } from './Bottom';
+import { useStateValue } from '../../contexts/localStorage';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -19,12 +21,14 @@ export function Timer() {
   const [trans, setTrans] = useState(1);
   const [showList, setShowList] = useState(false);
   const [radius, setRadius] = useState(25);
+  const { token } = useStateValue();
   const windowFocus = useWindowFocus();
 
   useEffect(() => {
 
     if (windowFocus) {
       console.log('caiu no focus')
+      update();
       setTrans(1);
     } else {
       console.log('caiu no blur');
@@ -34,7 +38,7 @@ export function Timer() {
     }
   }, [windowFocus]);
 
-  async function getList() {
+  async function update() {
 
     const data = await TogglService.get();
 
@@ -44,15 +48,15 @@ export function Timer() {
 
   useEffect(() => {
 
-    getList();
+    update();
 
     let id = setInterval(() => {
       console.log('vai pegar');
-      getList();
+      update();
     }, 60000);
 
     return () => clearInterval(id);
-  }, []);
+  }, [token]);
 
   useEffect(() => {
 
@@ -91,8 +95,7 @@ export function Timer() {
     const data = await TogglService.start(item);
 
     console.log(data);
-    // setCurrent(data);
-    getList();
+    update();
   }
 
   async function playOrStop() {
@@ -100,7 +103,7 @@ export function Timer() {
     if (played) {
 
       await TogglService.stop(current.id);
-      getList();
+      update();
     } else {
 
       play(current);
@@ -127,7 +130,12 @@ export function Timer() {
           </Box>
         </Box>
       </Box>
-      {showList && <TimerList entries={entries} play={play} />}
+      {showList &&
+        <React.Fragment>
+          <TimerList entries={entries} play={play} />
+          <Bottom />
+        </React.Fragment>
+      }
     </Box>
   );
 }
