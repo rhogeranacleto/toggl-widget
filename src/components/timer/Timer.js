@@ -18,7 +18,7 @@ export function Timer() {
   const [project, setProject] = useState(null);
   const [time, setTime] = useState('');
   const [entries, setEntries] = useState([]);
-  const [trans, setTrans] = useState(1);
+  const [opacity, setOpacity] = useState(1);
   const [showList, setShowList] = useState(false);
   const [radius, setRadius] = useState(25);
   const { token } = useStateValue();
@@ -29,15 +29,15 @@ export function Timer() {
     if (windowFocus) {
 
       update();
-      setTrans(1);
+      setOpacity(1);
     } else {
 
       if (played) {
 
-        setTrans(0.4);
+        setOpacity(0.4);
       } else {
 
-        setTrans(1);
+        setOpacity(1);
       }
 
       setShowList(false);
@@ -116,7 +116,7 @@ export function Timer() {
   }
 
   return (
-    <Box style={{ borderRadius: radius, color: '#fff', backgroundColor: played ? green[800] : red[800], opacity: trans }} overflow="hidden">
+    <Box style={{ borderRadius: radius, color: '#fff', backgroundColor: played ? green[800] : red[800], opacity }} overflow="hidden">
       <Box style={{ /* opacity: trans */ }} display="flex" alignItems="center" >
         <IconButton size="small" onClick={playOrStop}>
           {played
