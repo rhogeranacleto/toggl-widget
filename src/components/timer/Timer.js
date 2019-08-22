@@ -32,11 +32,18 @@ export function Timer() {
       setTrans(1);
     } else {
 
-      setTrans(0.4);
+      if (played) {
+
+        setTrans(0.4);
+      } else {
+
+        setTrans(1);
+      }
+
       setShowList(false);
       setRadius(25);
     }
-  }, [windowFocus]);
+  }, [windowFocus, played]);
 
   async function update() {
 
@@ -52,7 +59,7 @@ export function Timer() {
     let id = setInterval(() => {
 
       update();
-    }, 60000);
+    }, 1000);
 
     return () => clearInterval(id);
   }, [token]);
