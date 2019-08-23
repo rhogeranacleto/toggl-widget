@@ -4,6 +4,10 @@ Created with react and electron.
 
 ## Installation
 
+### Requeriments
+
+- node 10 ou superior
+
 `npm i`
 
 ## Run on dev
