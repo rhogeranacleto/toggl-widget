@@ -20,4 +20,4 @@ npm run build
 
 ## TODO
 
-- [ ] Stop on window iddle, screnlock or suspend
+- [ ] Stop on window idle, screnlock or suspend
