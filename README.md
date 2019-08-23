@@ -17,3 +17,7 @@ npm run build
 
 ./dist/linux-unpacked/toggl
 ```
+
+## TODO
+
+- [ ] Stop on window iddle, screnlock or suspend
