@@ -127,8 +127,8 @@ export function Timer() {
         <Box flex={1} overflow="hidden" pr={1}>
           <Typography noWrap={true}>{current && current.description}</Typography>
           <Box display="flex" alignItems="center" justifyContent="space-between" pr={2}>
-            <Typography variant="caption" noWrap={true}>{time}</Typography>
-            <Typography variant="caption" noWrap={true}>{project && project.name}</Typography>
+            <Typography variant="caption" noWrap={true} style={{ flexShrink: 0, marginRight: 5 }}>{time}</Typography>
+            <Typography variant="caption" noWrap={true}>um projeto com um nome muito grande na pe ra quebra</Typography>
             <IconButton size="small" onClick={openList}>
               <MoreVert style={{ fontSize: 20, color: '#fff' }} />
             </IconButton>
