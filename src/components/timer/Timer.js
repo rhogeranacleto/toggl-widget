@@ -127,7 +127,7 @@ export function Timer() {
         <Box flex={1} overflow="hidden" pr={1}>
           <Typography noWrap={true}>{current && current.description}</Typography>
           <Box display="flex" alignItems="center" justifyContent="space-between" pr={2}>
-            <Typography variant="caption">{time}</Typography>
+            <Typography variant="caption" noWrap={true}>{time}</Typography>
             <Typography variant="caption" noWrap={true}>{project && project.name}</Typography>
             <IconButton size="small" onClick={openList}>
               <MoreVert style={{ fontSize: 20, color: '#fff' }} />
