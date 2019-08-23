@@ -59,7 +59,7 @@ export function Timer() {
     let id = setInterval(() => {
 
       update();
-    }, 1000);
+    }, 60000);
 
     return () => clearInterval(id);
   }, [token]);
