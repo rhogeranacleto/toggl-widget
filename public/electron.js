@@ -33,7 +33,7 @@ function createWindow() {
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools({     mode: 'detach'  });
-
+  mainWindow.setSkipTaskbar(true);
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
     // Dereference the window object, usually you would store windows
